@@ -57,7 +57,6 @@
             android:id="@+id/ll_information"
             android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:onClick="paly_login"
             android:orientation="horizontal">
 
             <TextView

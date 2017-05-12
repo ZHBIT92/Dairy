@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
-    <TextView
-            android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-           android:layout_centerInParent="true"
-             android:text="我是微信首页"
-             android:textSize="30dp"
-        android:id="@+id/textView2" />
+    android:orientation="vertical">
 
-</RelativeLayout>
+    <LinearLayout
+        android:background="@color/titleBlue"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:weightSum="1"
+        android:layout_height="48dp">
+
+        <ImageView
+            android:src="@drawable/note_icon1"
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+
+        <TextView
+            android:layout_marginRight="8dp"
+            android:layout_width="177dp"
+            android:layout_height="match_parent"
+            android:text="Note"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:gravity="center_vertical|start"
+            android:layout_weight="1.03" />
+
+        <Button
+            android:background="@drawable/note_add"
+            android:layout_marginRight="8dp"
+            android:layout_width="48dp"
+            android:id="@+id/btnAdd"
+            android:layout_height="48dp" />
+
+        <Button
+            android:background="@drawable/note_switch1"
+            android:layout_marginRight="8dp"
+            android:layout_width="48dp"
+            android:id="@+id/btnMenu"
+            android:layout_height="48dp" />
+    </LinearLayout>
+
+    <ListView
+        android:layout_weight="0.89"
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lv_note">
+
+    </ListView>
+
+</LinearLayout>
