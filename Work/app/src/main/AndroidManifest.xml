@@ -16,8 +16,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".page_01_add"></activity>
-        <activity android:name=".information"></activity>
-        <activity android:name=".information_change"></activity>
+        <activity android:name=".page_03_information"></activity>
+        <activity android:name=".page_03_setting"></activity>
+        <activity android:name=".page_03_password"></activity>
     </application>
 
 </manifest>

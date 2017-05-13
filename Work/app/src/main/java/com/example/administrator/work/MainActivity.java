@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -54,7 +56,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     private SQLiteDatabase DB;
 
     //我的界面
-    private LinearLayout ll_information;
+    private LinearLayout ll_information,ll_set,ll_pwd,ll_help;
     private TextView name,motto;
 
     // 中间内容区域
@@ -78,6 +80,11 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         initEvent();
     }
 
+    protected void onResume() {
+        super.onResume();
+
+    }
+
     private void initEvent() {
         // 设置按钮监听
         ll_home.setOnClickListener(this);
@@ -94,6 +101,9 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
         //我的界面监听
         ll_information.setOnClickListener(this);
+        ll_pwd.setOnClickListener(this);
+        ll_set.setOnClickListener(this);
+        ll_help.setOnClickListener(this);
     }
 
     private void initView() {
@@ -136,10 +146,11 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
         //我的界面
         this.ll_information = (LinearLayout) page_03.findViewById(R.id.ll_information);
-        this.name = (TextView) page_03.findViewById(R.id.name);
-        this.motto = (TextView) page_03.findViewById(R.id.motto);
-        show();
-
+        this.ll_pwd = (LinearLayout) page_03.findViewById(R.id.ll_pwd);
+        this.ll_set = (LinearLayout) page_03.findViewById(R.id.ll_set);
+        this.ll_help = (LinearLayout) page_03.findViewById(R.id.ll_help);
+        name = (TextView) page_03.findViewById(R.id.name);
+        motto = (TextView) page_03.findViewById(R.id.motto);
 
         views.add(page_01);
         views.add(page_02);
@@ -147,17 +158,6 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
         this.adapter = new ContentAdapter(views);
         viewPager.setAdapter(adapter);
-    }
-
-    private void show(){
-        DatabaseHelper dbHelper = new DatabaseHelper(MainActivity.this,
-                "test_my_db",1);
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from information ", null);
-        while (cursor.moveToNext()) {
-            name.setText(cursor.getString(0));
-            motto.setText(cursor.getString(1));
-        }
     }
 
     @Override
@@ -181,19 +181,34 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                 iv_setting.setImageResource(R.drawable.tab_setting_pressed);
                 tv_setting.setTextColor(0xff1B940A);
                 viewPager.setCurrentItem(2);
-                break;
-            case R.id.ll_information:
-                Intent intent = new Intent(MainActivity.this,information.class);
-                startActivity(intent);
+
                 break;
             case R.id.btnAdd:
-                Intent intent1=new Intent(MainActivity.this,page_01_add.class);
+                Intent intent=new Intent(MainActivity.this,page_01_add.class);
                 Bundle bundle=new Bundle();
                 bundle.putString("info","");
                 bundle.putInt("enter_state",0);
-                intent1.putExtras(bundle);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
+            case R.id.ll_information:
+                Intent intent1 = new Intent(MainActivity.this,page_03_information.class);
                 startActivity(intent1);
                 break;
+            case R.id.ll_set:
+                Intent intent2 = new Intent(MainActivity.this,page_03_setting.class);
+                startActivity(intent2);
+                break;
+            case R.id.ll_pwd:
+                Intent intent3 = new Intent(MainActivity.this,page_03_password.class);
+                startActivity(intent3);
+                break;
+            case R.id.ll_help:
+                new AlertDialog.Builder(this)
+                        .setTitle("帮助")
+                        .setMessage("出门右转知乎")
+                        .setPositiveButton("确定",null)
+                        .show();
             default:
                 break;
         }
@@ -201,9 +216,9 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
     private void restartBotton() {
         // ImageView置为灰色
-        //iv_home.setImageResource(R.drawable.tab_weixin_normal);
-        //iv_address.setImageResource(R.drawable.tab_address_normal);
-        //iv_setting.setImageResource(R.drawable.tab_settings_normal);
+        iv_home.setImageResource(R.drawable.tab_write_pressed);
+        iv_address.setImageResource(R.drawable.tab_address_pressed);
+        iv_setting.setImageResource(R.drawable.tab_setting_pressed);
         // TextView置为白色
         tv_home.setTextColor(0xd9d9d9d9);
         tv_address.setTextColor(0xd9d9d9d9);
@@ -242,6 +257,10 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             case 2:
                 iv_setting.setImageResource(R.drawable.tab_setting_pressed);
                 tv_setting.setTextColor(0xff1B940A);
+
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+                name.setText(sp.getString("name", "").toString());
+                motto.setText(sp.getString("motto", ""));
                 break;
 
             default:

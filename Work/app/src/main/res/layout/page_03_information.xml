@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <PreferenceCategory android:title="个人信息设置">
+
+        <EditTextPreference
+                android:key="name"
+                android:summary="请输入昵称"
+                android:title="昵称"
+            />
+
+        <EditTextPreference
+            android:key="motto"
+            android:summary="请输入个性签名"
+            android:title="个性签名" />
+
+        <EditTextPreference
+                android:key="mobile"
+                android:summary="请输入真实的手机号"
+                android:title="手机号码" />
+
+        <EditTextPreference
+                android:key="mail"
+                android:summary="请输入真实的邮箱"
+                android:title="邮箱" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

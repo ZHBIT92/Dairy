@@ -67,18 +67,8 @@
 
         </LinearLayout>
 
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="58dp">
-
-            <TextView
-                style="@style/usertext"
-                android:layout_height="41dp"
-                android:text="我的收藏" />
-        </LinearLayout>
-
-        <LinearLayout
+            android:id="@+id/ll_pwd"
             android:layout_width="match_parent"
             android:layout_height="73dp">
 
@@ -94,15 +84,28 @@
         android:layout_width="match_parent"
         android:layout_height="103dp">
 
-        <TextView
-            style="@style/usertext"
-            android:layout_height="89dp"
-            android:text="帮助" />
+        <LinearLayout
+            android:id="@+id/ll_help"
+            android:layout_width="match_parent"
+            android:layout_height="73dp">
 
-        <TextView
-            style="@style/usertext"
-            android:layout_height="114dp"
-            android:text="设置" />
+            <TextView
+                style="@style/usertext"
+                android:layout_height="89dp"
+                android:text="帮助" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_set"
+            android:layout_width="match_parent"
+            android:layout_height="73dp">
+
+            <TextView
+                style="@style/usertext"
+                android:layout_height="114dp"
+                android:text="设置" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
