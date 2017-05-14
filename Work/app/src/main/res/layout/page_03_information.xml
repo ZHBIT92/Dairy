@@ -3,28 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <PreferenceCategory android:title="个人信息设置">
+    <PreferenceCategory android:title="个人信息设置"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <EditTextPreference
                 android:key="name"
                 android:summary="请输入昵称"
                 android:title="昵称"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
 
         <EditTextPreference
             android:key="motto"
             android:summary="请输入个性签名"
-            android:title="个性签名" />
+            android:title="个性签名"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
 
         <EditTextPreference
                 android:key="mobile"
                 android:summary="请输入真实的手机号"
-                android:title="手机号码" />
+                android:title="手机号码"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
 
         <EditTextPreference
                 android:key="mail"
                 android:summary="请输入真实的邮箱"
-                android:title="邮箱" />
+                android:title="邮箱"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
 
     </PreferenceCategory>
 

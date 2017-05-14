@@ -7,10 +7,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -31,6 +33,8 @@ import java.util.Map;
 
 public class MainActivity extends Activity implements View.OnClickListener, ViewPager.OnPageChangeListener,AdapterView.OnItemClickListener,AdapterView.OnItemLongClickListener{
 
+    //双击返回键退出
+    private long exitTime=0;
     // 底部菜单3个Linearlayout
     private LinearLayout ll_home;
     private LinearLayout ll_address;
@@ -50,10 +54,16 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     private SimpleAdapter simple_Adapter;
     private List<Map<String,Object>> dataList;
     private Button btnAdd;
+    private Button btnClearAll;//5-13
     private TextView tv_date;
     private TextView tv_content;
     private NoteDataBaseHelper DBHelper;
     private SQLiteDatabase DB;
+
+    //种树界面
+    int i=1;
+    private Button btn_water;
+    private ImageView iv_tree;
 
     //我的界面
     private LinearLayout ll_information,ll_set,ll_pwd,ll_help;
@@ -66,6 +76,8 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     private List<View> views;
 
     protected void onStart(){
+        iv_home.setImageResource(R.drawable.nav_note);//5-13 18:21
+        tv_home.setTextColor(Color.parseColor("#146ef5"));//5-13 18:21
         super.onStart();
         RefreshNoteList();
     }
@@ -80,9 +92,23 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         initEvent();
     }
 
-    protected void onResume() {
-        super.onResume();
+    //双击退出
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if(keyCode==KeyEvent.KEYCODE_BACK && event.getAction()==KeyEvent.ACTION_DOWN){
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode,event);
+    }
 
+    public void exit(){
+        if(System.currentTimeMillis()-exitTime>2000){
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            exitTime=System.currentTimeMillis();
+        }else{
+            finish();
+            System.exit(0);
+        }
     }
 
     private void initEvent() {
@@ -97,7 +123,10 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         lv_note.setOnItemClickListener(this);
         lv_note.setOnItemLongClickListener(this);
         btnAdd.setOnClickListener(this);
+        btnClearAll.setOnClickListener(this);
 
+        //种树界面
+        btn_water.setOnClickListener(this);
 
         //我的界面监听
         ll_information.setOnClickListener(this);
@@ -134,23 +163,29 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         //日记界面
         //设置时间
         Date date=new Date();
-        SimpleDateFormat sdf=new SimpleDateFormat("MM-dd");
+        SimpleDateFormat sdf=new SimpleDateFormat("MM-dd HH:mm:ss");
         String dateString=sdf.format(date);
-        tv_date= (TextView) page_01.findViewById(R.id.tv_date);
-        tv_content= (TextView) page_01.findViewById(R.id.tv_content);
-        lv_note= (ListView) page_01.findViewById(R.id.lv_note);
+        this.tv_date= (TextView) page_01.findViewById(R.id.tv_date);
+        this.tv_content= (TextView) page_01.findViewById(R.id.tv_content);
+        this.lv_note= (ListView) page_01.findViewById(R.id.lv_note);
         dataList=new ArrayList<Map<String,Object>>();
-        btnAdd= (Button) page_01.findViewById(R.id.btnAdd);
+        this.btnAdd= (Button) page_01.findViewById(R.id.btnAdd);
+        this.btnClearAll= (Button) page_01.findViewById(R.id.btnClearAll);//5-13
         DBHelper=new NoteDataBaseHelper(this);
         DB=DBHelper.getReadableDatabase();
+
+        ////种树界面
+        this.btn_water= (Button) page_02.findViewById(R.id.btn_water);
+        this.iv_tree = (ImageView)page_02. findViewById(R.id.iv_tree);
 
         //我的界面
         this.ll_information = (LinearLayout) page_03.findViewById(R.id.ll_information);
         this.ll_pwd = (LinearLayout) page_03.findViewById(R.id.ll_pwd);
-        this.ll_set = (LinearLayout) page_03.findViewById(R.id.ll_set);
         this.ll_help = (LinearLayout) page_03.findViewById(R.id.ll_help);
-        name = (TextView) page_03.findViewById(R.id.name);
-        motto = (TextView) page_03.findViewById(R.id.motto);
+        this.ll_set = (LinearLayout) page_03.findViewById(R.id.ll_set);
+
+        this.name = (TextView) page_03.findViewById(R.id.name);
+        this.motto = (TextView) page_03.findViewById(R.id.motto);
 
         views.add(page_01);
         views.add(page_02);
@@ -164,70 +199,174 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     public void onClick(View v) {
         // 在每次点击后将所有的底部按钮(ImageView,TextView)颜色改为灰色，然后根据点击着色
         restartBotton();
-        // ImageView和TetxView置为绿色，页面随之跳转
+        // ImageView和TetxView置为蓝色，页面随之跳转
         switch (v.getId()) {
             case R.id.ll_home:
-                iv_home.setImageResource(R.drawable.tab_write_pressed);
-                tv_home.setTextColor(0xff1B940A);
+                iv_home.setImageResource(R.drawable.nav_note);
+                tv_home.setTextColor(Color.parseColor("#146ef5"));
                 viewPager.setCurrentItem(0);
                 break;
             case R.id.ll_address:
-                iv_address.setImageResource(R.drawable.tab_address_pressed);
-                tv_address.setTextColor(0xff1B940A);
+                iv_address.setImageResource(R.drawable.nav_mid);
+                tv_address.setTextColor(Color.parseColor("#146ef5"));
                 viewPager.setCurrentItem(1);
                 break;
 
             case R.id.ll_setting:
-                iv_setting.setImageResource(R.drawable.tab_setting_pressed);
-                tv_setting.setTextColor(0xff1B940A);
+                iv_setting.setImageResource(R.drawable.nav_me);
+                tv_setting.setTextColor(Color.parseColor("#146ef5"));
                 viewPager.setCurrentItem(2);
-
                 break;
+
             case R.id.btnAdd:
-                Intent intent=new Intent(MainActivity.this,page_01_add.class);
+                iv_home.setImageResource(R.drawable.nav_note);
+                tv_home.setTextColor(Color.parseColor("#146ef5"));
+                Intent intent1=new Intent(MainActivity.this,page_01_add.class);
                 Bundle bundle=new Bundle();
                 bundle.putString("info","");
                 bundle.putInt("enter_state",0);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                break;
-            case R.id.ll_information:
-                Intent intent1 = new Intent(MainActivity.this,page_03_information.class);
+                intent1.putExtras(bundle);
                 startActivity(intent1);
                 break;
-            case R.id.ll_set:
-                Intent intent2 = new Intent(MainActivity.this,page_03_setting.class);
-                startActivity(intent2);
+            case R.id.btnClearAll:
+                iv_home.setImageResource(R.drawable.nav_note);
+                tv_home.setTextColor(Color.parseColor("#146ef5"));
+                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                builder.setTitle("清空便签");
+                builder.setMessage("是否确定清空便签？");
+
+                builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        //清空sql，刷新
+                        DB.execSQL("delete from note");
+                        RefreshNoteList();
+                    }
+                });
+
+                builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+
+                    }
+                });
+                builder.create();
+                builder.show();
                 break;
-            case R.id.ll_pwd:
-                Intent intent3 = new Intent(MainActivity.this,page_03_password.class);
+
+            case R.id.btn_water:
+                iv_address.setImageResource(R.drawable.nav_mid);
+                tv_address.setTextColor(Color.parseColor("#146ef5"));
+                if(i==1){
+                    this.iv_tree.setImageResource(R.drawable.tree2);
+                    new AlertDialog.Builder(this)
+                            .setMessage("解锁种子")
+                            .setPositiveButton("解锁",null)
+                            .show();
+                    i++;
+                    break;
+                }
+                else if(i>1&&i<3){
+                    i++;
+                    new AlertDialog.Builder(this)
+                            .setMessage("能量+1")
+                            .setPositiveButton("确定",null)
+                            .show();
+                    break;
+                }
+                else if(i==3){
+                    new AlertDialog.Builder(this)
+                            .setMessage("解锁小树苗")
+                            .setPositiveButton("解锁",null)
+                            .show();
+                    this.iv_tree.setImageResource(R.drawable.tree3);
+                    i++;
+                    break;
+                }
+                else if(i>3&&i<5){
+                    i++;
+                    new AlertDialog.Builder(this)
+                            .setMessage("能量+1")
+                            .setPositiveButton("确定",null)
+                            .show();
+                    break;
+                }
+                else if(i==5){
+                    new AlertDialog.Builder(this)
+                        .setMessage("长成小树")
+                        .setPositiveButton("确定",null)
+                        .show();
+                    this.iv_tree.setImageResource(R.drawable.tree4);
+
+                    i++;
+                    break;
+                }
+                else if(i>5&&i<8){
+                    i++;
+                    new AlertDialog.Builder(this)
+                            .setMessage("能量+1")
+                            .setPositiveButton("确定",null)
+                            .show();
+                    break;
+                }
+                else if(i==8){
+                    new AlertDialog.Builder(this)
+                            .setMessage("长成大树")
+                            .setPositiveButton("确定",null)
+                            .show();
+                    this.iv_tree.setImageResource(R.drawable.tree5);
+                    i++;
+                    break;
+                }
+                else{
+                    new AlertDialog.Builder(this)
+                            .setMessage("到大树了，别点了")
+                            .setPositiveButton("确定",null)
+                            .show();
+                }
+                break;
+
+            case R.id.ll_information:
+                iv_setting.setImageResource(R.drawable.nav_me);
+                tv_setting.setTextColor(Color.parseColor("#146ef5"));
+                Intent intent3 = new Intent(MainActivity.this,page_03_information.class);
                 startActivity(intent3);
                 break;
+            case R.id.ll_set:
+                iv_setting.setImageResource(R.drawable.nav_me);
+                tv_setting.setTextColor(Color.parseColor("#146ef5"));
+                Intent intent31 = new Intent(MainActivity.this,page_03_setting.class);
+                startActivity(intent31);
+                break;
+            case R.id.ll_pwd:
+                iv_setting.setImageResource(R.drawable.nav_me);
+                tv_setting.setTextColor(Color.parseColor("#146ef5"));
+                Intent intent32 = new Intent(MainActivity.this,page_03_password.class);
+                startActivity(intent32);
+                break;
             case R.id.ll_help:
+                iv_setting.setImageResource(R.drawable.nav_me);
+                tv_setting.setTextColor(Color.parseColor("#146ef5"));
                 new AlertDialog.Builder(this)
                         .setTitle("帮助")
                         .setMessage("出门右转知乎")
                         .setPositiveButton("确定",null)
                         .show();
             default:
+                Toast.makeText(this,"Error",Toast.LENGTH_SHORT).show();
                 break;
         }
     }
 
     private void restartBotton() {
         // ImageView置为灰色
-        iv_home.setImageResource(R.drawable.tab_write_pressed);
-        iv_address.setImageResource(R.drawable.tab_address_pressed);
-        iv_setting.setImageResource(R.drawable.tab_setting_pressed);
+        iv_home.setImageResource(R.drawable.nav_note_press);
+        iv_address.setImageResource(R.drawable.nav_mid_press);
+        iv_setting.setImageResource(R.drawable.nav_me_press);
         // TextView置为白色
-        tv_home.setTextColor(0xd9d9d9d9);
-        tv_address.setTextColor(0xd9d9d9d9);
-        tv_setting.setTextColor(0xd9d9d9d9);
-    }
-
-    public void paly_login(View v)
-    {
-
+        tv_home.setTextColor(Color.parseColor("#CCCCCC"));
+        tv_address.setTextColor(Color.parseColor("#CCCCCC"));
+        tv_setting.setTextColor(Color.parseColor("#CCCCCC"));
     }
 
     @Override
@@ -246,17 +385,16 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         //当前view被选择的时候,改变底部菜单图片，文字颜色
         switch (arg0) {
             case 0:
-                iv_home.setImageResource(R.drawable.tab_write_pressed);
-                tv_home.setTextColor(0xff1B940A);
+                iv_home.setImageResource(R.drawable.nav_note);
+                tv_home.setTextColor(Color.parseColor("#146ef5"));
                 break;
             case 1:
-                iv_address.setImageResource(R.drawable.tab_address_pressed);
-                tv_address.setTextColor(0xff1B940A);
+                iv_address.setImageResource(R.drawable.nav_mid);
+                tv_address.setTextColor(Color.parseColor("#146ef5"));
                 break;
-
             case 2:
-                iv_setting.setImageResource(R.drawable.tab_setting_pressed);
-                tv_setting.setTextColor(0xff1B940A);
+                iv_setting.setImageResource(R.drawable.nav_me);
+                tv_setting.setTextColor(Color.parseColor("#146ef5"));
 
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
                 name.setText(sp.getString("name", "").toString());
@@ -273,6 +411,9 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         //获取listview中item内容
         String content=lv_note.getItemAtPosition(arg2) + "";
         String content1=content.substring(content.indexOf("=") + 1, content.indexOf(","));
+       //test
+       Log.d("item click ",content);
+       Log.d("item click ",content1);
 
         Intent mIntent=new Intent(MainActivity.this, page_01_add.class);
         Bundle bundle=new Bundle();
@@ -286,22 +427,30 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     public boolean onItemLongClick(AdapterView<?> arg0, View arg1, final int arg2, long arg3) {
 
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        builder.setTitle("Delete ?");
-        builder.setMessage("Really ?");
+        builder.setTitle("删除便签");
+        builder.setMessage("是否确定删除选中项？");
 
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
                 //获取listview中item中的内容
                 //删除该行后刷新listvi内容
                 String content=lv_note.getItemAtPosition(arg2) + "";
                 String content1=content.substring(content.indexOf("=") + 1, content.indexOf(","));
-                DB.delete("note","content = ?",new String[]{content1});
+                String content2=content.substring(content.lastIndexOf("=") + 1,content.indexOf("}"));
+                //test
+                Log.d("item long click ",content);
+                Log.d("item long click ",content1);
+                Log.d("item long click ",content2);
+
+                DB.delete("note","content = ? and date = ?",new String[]{content1,content2});
+                //test
+                Log.d("item delete: ","delete from note where content=" + content1+" and date=" + content2);
                 RefreshNoteList();
             }
         });
 
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int which) {
 
@@ -329,8 +478,9 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             String name = cursor.getString(cursor.getColumnIndex("content"));
             String date = cursor.getString(cursor.getColumnIndex("date"));
             Map<String ,Object> map=new HashMap<String, Object>();
+            String date2=date.substring(0,date.indexOf(" "));
             map.put("tv_content",name);
-            map.put("tv_date",date);
+            map.put("tv_date",date2);
             dataList.add(map);
         }
         simple_Adapter=new SimpleAdapter(this,dataList, R.layout.item,

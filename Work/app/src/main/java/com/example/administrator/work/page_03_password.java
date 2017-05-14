@@ -1,13 +1,10 @@
 package com.example.administrator.work;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.util.Log;
 
 /**
  * Created by Administrator on 2017/5/6.

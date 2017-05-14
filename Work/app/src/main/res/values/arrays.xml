@@ -6,9 +6,9 @@
 		<item>其他</item>
 	</string-array>
 	<string-array name="language_value">
-		<item>001</item>
-		<item>002</item>
-		<item>003</item>
+		<item>中文</item>
+		<item>英文</item>
+		<item>其他</item>
 	</string-array>
 
 </resources>

@@ -10,19 +10,21 @@
         android:ems="10"
         android:layout_marginLeft="30dp"
         android:gravity="center_vertical"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:id="@+id/tv_content"
-        android:layout_width="wrap_content"
-        android:layout_weight="0.89"
-        android:layout_height="26dp" />
+        android:layout_width="251dp"
+        android:text="永远不要低估一颗总冠军的心!"
+        android:layout_height="36dp" />
 
     <TextView
-        android:textColor="@color/titleBlue"
+        android:layout_marginRight="30dp"
+        android:textColor="@color/colorGrey"
         android:gravity="center_horizontal|center_vertical"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:id="@+id/tv_date"
         android:layout_width="102dp"
         android:layout_weight="0.11"
-        android:layout_height="26dp" />
+        android:text="05-13"
+        android:layout_height="36dp" />
 
 </LinearLayout>

@@ -14,5 +14,7 @@
         android:layout_height="107dp"
         android:layout_weight="0.98"></android.support.v4.view.ViewPager>
 
-    <include layout="@layout/activity_bottom" />
+    <include layout="@layout/activity_bottom"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
 </LinearLayout>

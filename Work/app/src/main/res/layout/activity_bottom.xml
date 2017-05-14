@@ -14,17 +14,17 @@
 
         <ImageView
             android:id="@+id/iv_home"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:src="@drawable/tab_write_pressed" />
+            android:src="@drawable/nav_note"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
 
         <TextView
             android:id="@+id/tv_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="首页"
-            android:textColor="#1B940A"
+            android:text="便签"
+            android:textColor="@color/titleBlue"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -38,9 +38,9 @@
 
         <ImageView
             android:id="@+id/iv_address"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:src="@drawable/tab_address_pressed" />
+            android:src="@drawable/nav_mid_press"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
 
         <TextView
             android:id="@+id/tv_address"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:text="通讯录"
-            android:textColor="#d9d9d9"
+            android:textColor="@color/colorGrey"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -63,17 +63,17 @@
 
         <ImageView
             android:id="@+id/iv_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:src="@drawable/tab_setting_pressed" />
+            android:src="@drawable/nav_me_press"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
 
         <TextView
             android:id="@+id/tv_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="我的"
-            android:textColor="#d9d9d9"
+            android:text="我"
+            android:textColor="@color/colorGrey"
             android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

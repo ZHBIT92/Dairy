@@ -10,44 +10,52 @@
     <LinearLayout
         android:background="@color/titleBlue"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_height="56dp">
 
         <Button
-            android:background="@drawable/note_back"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/note_back2"
             android:layout_marginRight="8dp"
             android:id="@+id/btnCancel"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
 
         <TextView
             android:gravity="center_vertical"
             android:textColor="#fff"
             android:layout_marginRight="8dp"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:layout_width="226dp"
             android:layout_height="match_parent"
             android:text="内容编辑"
             android:layout_weight="1.03" />
         <Button
+            android:layout_gravity="center_vertical"
             android:layout_marginRight="8dp"
-            android:background="@drawable/note_ok"
+            android:background="@drawable/note_ok2"
             android:id="@+id/btnSave"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
 
 
 
     </LinearLayout>
 
     <EditText
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@null"
         android:gravity="start"
         android:textSize="18sp"
         android:layout_width="match_parent"
         android:ems="10"
         android:hint="Say something here:)"
-        android:layout_height="430dp"
-        android:id="@+id/et_content" />
+        android:layout_height="match_parent"
+        android:id="@+id/et_content"
+        android:text="永远不要低估一颗总冠军的心！" />
 
 </LinearLayout>

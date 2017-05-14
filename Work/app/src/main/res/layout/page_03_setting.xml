@@ -7,7 +7,7 @@
 
         <CheckBoxPreference
             android:key="wifi"
-            android:summary="使用无线网络查看应用程序（例如Google地图）中的位置"
+            android:summary="使用无线网络查看应用程序的位置"
             android:title="使用无线网络" />
 
         <CheckBoxPreference
@@ -23,18 +23,9 @@
             android:entries="@array/language"
             android:entryValues="@array/language_value"
             android:key="language"
+            android:summary="请选择语言"
             android:title="语言"></ListPreference>
 
-        <LinearLayout
-            android:id="@+id/ll_other"
-            android:layout_width="match_parent"
-            android:layout_height="73dp">
-
-            <TextView
-                style="@style/usertext"
-                android:layout_height="114dp"
-                android:text="其他" />
-        </LinearLayout>
     </PreferenceCategory>
 
 </PreferenceScreen>

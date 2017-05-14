@@ -12,36 +12,44 @@
         android:layout_height="48dp">
 
         <ImageView
-            android:src="@drawable/note_icon1"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/note_icon2"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
 
         <TextView
             android:layout_marginRight="8dp"
             android:layout_width="177dp"
             android:layout_height="match_parent"
-            android:text="Note"
+            android:text="Life Miracle"
             android:textColor="#fff"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:gravity="center_vertical|start"
             android:layout_weight="1.03" />
 
         <Button
-            android:background="@drawable/note_add"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/note_add2"
             android:layout_marginRight="8dp"
-            android:layout_width="48dp"
             android:id="@+id/btnAdd"
-            android:layout_height="48dp" />
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
 
         <Button
-            android:background="@drawable/note_switch1"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/note_trash"
             android:layout_marginRight="8dp"
-            android:layout_width="48dp"
-            android:id="@+id/btnMenu"
-            android:layout_height="48dp" />
+            android:id="@+id/btnClearAll"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
     </LinearLayout>
 
     <ListView
+        android:listSelector="@color/colorGrey"
+        android:divider="@drawable/liner"
+        android:dividerHeight="1dp"
         android:layout_weight="0.89"
         android:background="#fff"
         android:layout_width="match_parent"

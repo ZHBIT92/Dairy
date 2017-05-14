@@ -64,7 +64,7 @@ public class page_01_add extends Activity implements View.OnClickListener{
                     if(!content.equals("")){
                         //获取时间
                         Date date=new Date();
-                        SimpleDateFormat sdf=new SimpleDateFormat("MM-dd");
+                        SimpleDateFormat sdf=new SimpleDateFormat("MM-dd HH-mm-ss");
                         String dateString=sdf.format(date);
                         //像数据库添加信息
                         ContentValues values=new ContentValues();
@@ -74,7 +74,7 @@ public class page_01_add extends Activity implements View.OnClickListener{
                         db.insert("note",null,values);
                         finish();
                     }else{
-                        Toast.makeText(this,"Please input",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"写些什么吧!",Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     //查看修改日记
@@ -83,11 +83,11 @@ public class page_01_add extends Activity implements View.OnClickListener{
                     db.update("note",values,"content = ?",new String[]{last_content});
                     finish();
                 }
-                Toast.makeText(this,"Finished",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"已完成",Toast.LENGTH_SHORT).show();
 
                 break;
             case R.id.btnCancel:
-                Toast.makeText(this, "Cancled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "已取消", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
         }
