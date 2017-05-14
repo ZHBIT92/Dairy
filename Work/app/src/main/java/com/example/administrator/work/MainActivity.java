@@ -484,9 +484,9 @@ public class MainActivity extends Activity implements View.OnClickListener, View
             String name = cursor.getString(cursor.getColumnIndex("content"));
             String date = cursor.getString(cursor.getColumnIndex("date"));
             Map<String ,Object> map=new HashMap<String, Object>();
-            String date2=date.substring(0,date.indexOf(" "));
+            //String date2=date.substring(0,date.indexOf(" "));
             map.put("tv_content",name);
-            map.put("tv_date",date2);
+            map.put("tv_date",date);
             dataList.add(map);
         }
         simple_Adapter=new SimpleAdapter(this,dataList, R.layout.item,

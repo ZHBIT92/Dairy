@@ -30,6 +30,7 @@ public class welcome extends Activity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                
                 skip();
             }
 
