@@ -75,11 +75,12 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     private ContentAdapter adapter;
     private List<View> views;
 
-    protected void onStart(){
-        iv_home.setImageResource(R.drawable.nav_note);//5-13 18:21
-        tv_home.setTextColor(Color.parseColor("#146ef5"));//5-13 18:21
+    protected void onStart() {
         super.onStart();
         RefreshNoteList();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        name.setText(sp.getString("name", ""));
+        motto.setText(sp.getString("motto", ""));
     }
 
     @Override
