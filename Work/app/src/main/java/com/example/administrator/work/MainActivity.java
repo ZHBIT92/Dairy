@@ -186,7 +186,6 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         this.iv_tree = (ImageView)page_02. findViewById(R.id.iv_tree);
         this.lv_tree= (ListView) page_02.findViewById(R.id.lv_tree);
 
-
         //我的界面
         this.ll_information = (LinearLayout) page_03.findViewById(R.id.ll_information);
         this.ll_pwd = (LinearLayout) page_03.findViewById(R.id.ll_pwd);
@@ -235,7 +234,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                 bundle.putString("info","");
                 bundle.putInt("enter_state",0);
                 intent1.putExtras(bundle);
-                startActivity(intent1);
+                startActivityForResult(intent1,R.layout.page_01_add);
                 break;
             case R.id.btnClearAll:
                 iv_home.setImageResource(R.drawable.nav_note);
@@ -294,6 +293,46 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                 Toast.makeText(this,"Error",Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode) {
+            case R.layout.page_01_add:
+                if (resultCode == 1) {
+                    iv_tree.setImageResource(R.drawable.tree2);
+                    new AlertDialog.Builder(this)
+                            .setMessage("书写第一篇日记，解锁种子成功")
+                            .setPositiveButton("解锁",null)
+                            .show();
+                }
+                else if (resultCode == 3) {
+                    iv_tree.setImageResource(R.drawable.tree3);
+                    new AlertDialog.Builder(this)
+                            .setMessage("书写日记达到3篇，获得小树苗")
+                            .setPositiveButton("解锁",null)
+                            .show();
+                }
+                else if (resultCode == 5) {
+                    iv_tree.setImageResource(R.drawable.tree4);
+                    new AlertDialog.Builder(this)
+                            .setMessage("书写日记达到5篇，获取小树")
+                            .setPositiveButton("解锁",null)
+                            .show();
+                }
+                else if (resultCode == 80) {
+                    iv_tree.setImageResource(R.drawable.tree5);
+                    new AlertDialog.Builder(this)
+                            .setMessage("解锁大树成功")
+                            .setPositiveButton("解锁",null)
+                            .show();
+                }
+                break;
+            default:
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void restartBotton() {

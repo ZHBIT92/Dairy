@@ -87,26 +87,25 @@ public class page_01_add extends Activity implements View.OnClickListener{
 
                         i++;
                         if(i==1){
-                            values.put("tree","解锁种子");
-                            iv_tree.setImageResource(R.drawable.tree2);
+                            values.put("tree","书写你的第一篇日记成功，获得种子");
                         }
                         else if(i==3){
-                            values.put("tree","获得小树苗");
-                            iv_tree.setImageResource(R.drawable.tree3);
+                            values.put("tree","书写日记达到3篇，获得小树苗");
                         }
                         else if(i==5){
-                            values.put("tree","长成小树");
+                            values.put("tree","书写日记达到5篇，小树苗长成小树");
                             iv_tree.setImageResource(R.drawable.tree4);
                         }
                         else if(i==80){
-                            values.put("tree","长成大树");
+                            values.put("tree","书写日记达到80篇，小树成长为大树");
                             iv_tree.setImageResource(R.drawable.tree5);
                         }
                         else {
-                            values.put("tree","能量+1");
+                            values.put("tree","书写一篇心得日记，能量+1");
                         }
                         values.put("num",i);
                         db.insert("note",null,values);
+                        setResult(i, getIntent());
                         finish();
                     }else{
                         Toast.makeText(this,"写些什么吧!",Toast.LENGTH_SHORT).show();
@@ -119,7 +118,6 @@ public class page_01_add extends Activity implements View.OnClickListener{
                     finish();
                 }
                 Toast.makeText(this,"已完成",Toast.LENGTH_SHORT).show();
-
                 break;
             case R.id.btnCancel:
                 Toast.makeText(this, "已取消", Toast.LENGTH_SHORT).show();
