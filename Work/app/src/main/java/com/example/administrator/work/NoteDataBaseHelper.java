@@ -13,6 +13,8 @@ public class NoteDataBaseHelper extends SQLiteOpenHelper{
     public static final String CreateNote="create table note("
             + "id integer primary key autoincrement,"
             + "content text, "
+            +"tree text,"
+            +"num int,"
             +"date text)";
 
 

@@ -2,6 +2,7 @@ package com.example.administrator.work;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -62,8 +63,11 @@ public class MainActivity extends Activity implements View.OnClickListener, View
 
     //种树界面
     int i=1;
-    private Button btn_water;
+    private TextView tv_tree;
+    private TextView tv_date1;
+    private List<Map<String,Object>> treeList;
     private ImageView iv_tree;
+    private ListView lv_tree;
 
     //我的界面
     private LinearLayout ll_information,ll_set,ll_pwd,ll_help;
@@ -78,6 +82,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
     protected void onStart() {
         super.onStart();
         RefreshNoteList();
+        RefreshTreeList();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         name.setText(sp.getString("name", ""));
         motto.setText(sp.getString("motto", ""));
@@ -127,7 +132,6 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         btnClearAll.setOnClickListener(this);
 
         //种树界面
-        btn_water.setOnClickListener(this);
 
         //我的界面监听
         ll_information.setOnClickListener(this);
@@ -176,8 +180,12 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         DB=DBHelper.getReadableDatabase();
 
         ////种树界面
-        this.btn_water= (Button) page_02.findViewById(R.id.btn_water);
+        this.tv_tree= (TextView) page_02.findViewById(R.id.tv_tree);
+        this.tv_date1= (TextView) page_02.findViewById(R.id.tv_date1);
+        treeList=new ArrayList<Map<String,Object>>();
         this.iv_tree = (ImageView)page_02. findViewById(R.id.iv_tree);
+        this.lv_tree= (ListView) page_02.findViewById(R.id.lv_tree);
+
 
         //我的界面
         this.ll_information = (LinearLayout) page_03.findViewById(R.id.ll_information);
@@ -242,6 +250,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                         //清空sql，刷新
                         DB.execSQL("delete from note");
                         RefreshNoteList();
+                        RefreshTreeList();
                     }
                 });
 
@@ -253,78 +262,6 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                 });
                 builder.create();
                 builder.show();
-                break;
-
-            case R.id.btn_water:
-                iv_address.setImageResource(R.drawable.nav_mid);
-                tv_address.setTextColor(Color.parseColor("#146ef5"));
-                if(i==1){
-                    this.iv_tree.setImageResource(R.drawable.tree2);
-                    new AlertDialog.Builder(this)
-                            .setMessage("解锁种子")
-                            .setPositiveButton("解锁",null)
-                            .show();
-                    i++;
-                    break;
-                }
-                else if(i>1&&i<3){
-                    i++;
-                    new AlertDialog.Builder(this)
-                            .setMessage("能量+1")
-                            .setPositiveButton("确定",null)
-                            .show();
-                    break;
-                }
-                else if(i==3){
-                    new AlertDialog.Builder(this)
-                            .setMessage("解锁小树苗")
-                            .setPositiveButton("解锁",null)
-                            .show();
-                    this.iv_tree.setImageResource(R.drawable.tree3);
-                    i++;
-                    break;
-                }
-                else if(i>3&&i<5){
-                    i++;
-                    new AlertDialog.Builder(this)
-                            .setMessage("能量+1")
-                            .setPositiveButton("确定",null)
-                            .show();
-                    break;
-                }
-                else if(i==5){
-                    new AlertDialog.Builder(this)
-                        .setMessage("长成小树")
-                        .setPositiveButton("确定",null)
-                        .show();
-                    this.iv_tree.setImageResource(R.drawable.tree4);
-
-                    i++;
-                    break;
-                }
-                else if(i>5&&i<8){
-                    i++;
-                    new AlertDialog.Builder(this)
-                            .setMessage("能量+1")
-                            .setPositiveButton("确定",null)
-                            .show();
-                    break;
-                }
-                else if(i==8){
-                    new AlertDialog.Builder(this)
-                            .setMessage("长成大树")
-                            .setPositiveButton("确定",null)
-                            .show();
-                    this.iv_tree.setImageResource(R.drawable.tree5);
-                    i++;
-                    break;
-                }
-                else{
-                    new AlertDialog.Builder(this)
-                            .setMessage("到大树了，别点了")
-                            .setPositiveButton("确定",null)
-                            .show();
-                }
                 break;
 
             case R.id.ll_information:
@@ -448,6 +385,7 @@ public class MainActivity extends Activity implements View.OnClickListener, View
                 //test
                 Log.d("item delete: ","delete from note where content=" + content1+" and date=" + content2);
                 RefreshNoteList();
+                RefreshTreeList();
             }
         });
 
@@ -460,6 +398,34 @@ public class MainActivity extends Activity implements View.OnClickListener, View
         builder.create();
         builder.show();
         return true;
+    }
+
+    //刷新listview
+    public void RefreshTreeList(){
+        //如果treeList已有内容 全部删除 求更新simple_adapter
+        int size=treeList.size();
+        if(size>0){
+            treeList.removeAll(treeList);
+            simple_Adapter.notifyDataSetChanged();
+        }
+
+        //从数据库读取信息
+        Cursor cursor=DB.query("note", null, null, null, null, null, null);
+        startManagingCursor(cursor);
+
+        while (cursor.moveToNext()){
+            String tree = cursor.getString(cursor.getColumnIndex("tree"));
+            String date = cursor.getString(cursor.getColumnIndex("date"));
+            Map<String ,Object> map=new HashMap<String, Object>();
+            String date2=date.substring(0,date.indexOf(" "));
+            map.put("tv_tree",tree);
+            map.put("tv_date1",date2);
+            treeList.add(map);
+        }
+        simple_Adapter=new SimpleAdapter(this,treeList, R.layout.tree_list,
+                new String[]{"tv_tree","tv_date1"}, new int[]{R.id.tv_tree, R.id.tv_date1});
+        lv_tree.setAdapter(simple_Adapter);
+
     }
 
     //刷新listview

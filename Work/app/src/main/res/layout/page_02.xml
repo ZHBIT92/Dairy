@@ -12,9 +12,9 @@
         android:id="@+id/iv_tree"
         android:layout_weight="0.07" />
 
-    <Button
-        android:text="浇水"
-        android:layout_width="202dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_water" />
+    <ListView
+        android:id="@+id/lv_tree"
+        android:layout_width="match_parent"
+        android:layout_height="127dp"
+        android:layout_weight="0.67" />
 </LinearLayout>

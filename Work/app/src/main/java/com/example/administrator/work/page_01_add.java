@@ -2,11 +2,13 @@ package com.example.administrator.work;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class page_01_add extends Activity implements View.OnClickListener{
+
+    private ImageView iv_tree;
 
     private TextView tv_date;//??
     private EditText et_content;
@@ -38,6 +42,9 @@ public class page_01_add extends Activity implements View.OnClickListener{
         btnSave= (Button) findViewById(R.id.btnSave);
         btnCancel= (Button) findViewById(R.id.btnCancel);
 
+        View page_02 = getLayoutInflater().inflate( R.layout.page_02, null);
+        this.iv_tree = (ImageView)page_02. findViewById(R.id.iv_tree);
+
         DBHelper=new NoteDataBaseHelper(this);
 
         //接受内容、id
@@ -58,7 +65,13 @@ public class page_01_add extends Activity implements View.OnClickListener{
                 SQLiteDatabase db=DBHelper.getReadableDatabase();
                 //获取edittext内容
                 String content=et_content.getText().toString();
-
+                //从数据库读取信息
+                int i=0;
+                Cursor cursor=db.query("note", null, null, null, null, null, null);
+                startManagingCursor(cursor);
+                while (cursor.moveToNext()){
+                     i = cursor.getInt(cursor.getColumnIndex("num"));
+                }
                 //添加新日记
                 if(enter_state==0){
                     if(!content.equals("")){
@@ -66,11 +79,33 @@ public class page_01_add extends Activity implements View.OnClickListener{
                         Date date=new Date();
                         SimpleDateFormat sdf=new SimpleDateFormat("MM-dd HH-mm-ss");
                         String dateString=sdf.format(date);
+
                         //像数据库添加信息
                         ContentValues values=new ContentValues();
                         values.put("content",content);
                         values.put("date",dateString);
 
+                        i++;
+                        if(i==1){
+                            values.put("tree","解锁种子");
+                            iv_tree.setImageResource(R.drawable.tree2);
+                        }
+                        else if(i==3){
+                            values.put("tree","获得小树苗");
+                            iv_tree.setImageResource(R.drawable.tree3);
+                        }
+                        else if(i==5){
+                            values.put("tree","长成小树");
+                            iv_tree.setImageResource(R.drawable.tree4);
+                        }
+                        else if(i==80){
+                            values.put("tree","长成大树");
+                            iv_tree.setImageResource(R.drawable.tree5);
+                        }
+                        else {
+                            values.put("tree","能量+1");
+                        }
+                        values.put("num",i);
                         db.insert("note",null,values);
                         finish();
                     }else{
