@@ -4,17 +4,49 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1">
+    <LinearLayout
+        android:background="@color/titleBlue"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+
+        <ImageView
+            android:src="@drawable/mid_icon"
+            android:layout_marginLeft="8dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+        <TextView
+            android:textColor="#fff"
+            android:gravity="center_vertical"
+            android:text="Life Miracle"
+            android:textSize="20sp"
+            android:layout_marginLeft="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="245dp"
+        android:layout_height="240dp"
         android:src="@drawable/tree1"
         android:id="@+id/iv_tree"
-        android:layout_weight="0.07" />
+        android:layout_weight="0.10" />
+
+    <TextView
+        android:text="成长计划"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"/>
 
     <ListView
+        android:background="#ffffcc"
+        android:divider="@color/colorLine1"
+        android:dividerHeight="1dp"
         android:id="@+id/lv_tree"
         android:layout_width="match_parent"
         android:layout_height="127dp"
-        android:layout_weight="0.67" />
+        android:layout_weight="0.6" />
 </LinearLayout>
